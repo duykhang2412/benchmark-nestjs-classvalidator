@@ -2,6 +2,7 @@ import { getOrThrow, setupConfiguration } from '@packages/common';
 import { resolve } from 'path';
 import * as process from 'process';
 import { ulid } from 'ulid';
+import { LogLevel } from '@nestjs/common';
 
 setupConfiguration();
 const packageMeta = require(resolve('package.json'));
@@ -9,7 +10,7 @@ export const PACKAGE = packageMeta.name;
 export const VERSION = packageMeta.version;
 export const HTTP_PORT = getOrThrow<number>('service.http_port');
 export const GRPC_PORT = getOrThrow<number>('service.grpc_port');
-
+export const LOG_LEVEL = getOrThrow<LogLevel[]>('log.level');
 interface DbConfig {
   clientUrl: string;
   dbName: string;

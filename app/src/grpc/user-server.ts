@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { dirname, resolve } from 'path';
 
-import { GrpcModule } from '../grpc.module';
+import { UserModule } from '../grpc/user.module';
 import { cwd } from 'process';
 import { loadConfiguration } from 'src/utils/get-config';
 import { GRPC_PORT } from 'src/constraint';
@@ -39,11 +39,11 @@ async function bootstrap() {
   };
 
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    GrpcModule,
+    UserModule,
     { transport: Transport.GRPC, options, logger: LOG_LEVEL },
   );
 
-  Logger.log('GRPC server initializing', options, GrpcModule.name);
+  Logger.log('GRPC server initializing', options, UserModule.name);
 
   await app.listen();
 }
@@ -51,6 +51,6 @@ async function bootstrap() {
 bootstrap().then(() =>
   Logger.log(
     `${PACKAGE}@${VERSION} started at port ${SERVICE_PORT}`,
-    GrpcModule.name,
+    UserModule.name,
   ),
 );
