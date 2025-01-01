@@ -7,10 +7,10 @@ import { dirname, resolve } from 'path';
 import { UserModule } from '../grpc/user.module';
 import { cwd } from 'process';
 import { loadConfiguration } from 'src/utils/get-config';
-import { GRPC_PORT } from 'src/constraint';
+import { GRPC_PORT } from '../constraint';
 
 const config = new ConfigService(loadConfiguration());
-const SERVICE_PORT = config.get('service.port');
+// const SERVICE_PORT = config.get('service.port');
 const packageMeta = require(resolve('package.json'));
 const PACKAGE = packageMeta.name;
 const VERSION = packageMeta.version;
@@ -50,7 +50,7 @@ async function bootstrap() {
 
 bootstrap().then(() =>
   Logger.log(
-    `${PACKAGE}@${VERSION} started at port ${SERVICE_PORT}`,
+    `${PACKAGE}@${VERSION} started at port ${GRPC_PORT}`,
     UserModule.name,
   ),
 );

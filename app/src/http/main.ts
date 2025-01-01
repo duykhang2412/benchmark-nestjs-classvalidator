@@ -1,15 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { HTTP_PORT, PACKAGE, VERSION, LOG_LEVEL } from '../constraint';
+import { AppModule } from './user.module';
 import { Logger } from '@nestjs/common';
+import { HTTP_PORT } from '../constraint';
 
 export async function bootstrap() {
-  const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule, {
-    logger: LOG_LEVEL, // Set the log level for the application
-  });
-
+  const app = await NestFactory.create(AppModule);
   await app.listen(HTTP_PORT);
-  logger.log(`${PACKAGE}@${VERSION} started at port ${HTTP_PORT}`);
+  Logger.log(`Application is running on port ${HTTP_PORT}`);
 }
+
 
