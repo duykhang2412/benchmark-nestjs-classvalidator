@@ -1,18 +1,36 @@
-// import { UserController } from 'src/http/user.c
-// src/user/user.service.ts
 import { Injectable } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-
+import { userRepository } from "../store/repositories";
+import { UserEntity } from '../store/entities';
 @Injectable()
 export class UserController {
-
+    constructor(private readonly repository: userRepository) { }
     @GrpcMethod('UserServiceInternal', 'GetUser')
-    getUser(data: { userId: string }): { ok: boolean; data: { userId: string; userName: string; createdTime: string; updatedTime: string } } {
+    async getUser(data: { userId: string }): Promise<{ ok: boolean; data: { userId: string; userName: string; createdTime: string; updatedTime: string } }> {
+        const user: UserEntity | Error = await this.repository.GetUser(data.userId);
 
+        // Check for errors or missing user
+        if (user instanceof Error || !user) {
+            return {
+                ok: false,
+                data: {
+                    userId: '',
+                    userName: '',
+                    createdTime: '',
+                    updatedTime: ''
+                },
+            };
+        }
         return {
             ok: true,
-            data: null,
+            data: {
+                userId: user.userId,
+                userName: user.userName,
+                createdTime: user.createdTime,
+                updatedTime: user.updatedTime,
+            },
         };
+
     }
 
     // @GrpcMethod('UserServiceInternal', 'CreateUser')

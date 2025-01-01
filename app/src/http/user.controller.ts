@@ -42,13 +42,13 @@ export class AppController {
       if (!userId) {
         return { message: 'User ID is required', ok: false };
       }
-      const user = await this.grpcCall<UserEntity>('GetUser', { userId });
-      console.log('user:', user);
-
-      if (!user || !user.userId) {
-        return { message: 'User not found', ok: false };
-      }
-      return { data: user, ok: true };
+      const data = await this.grpcCall<UserEntity>('GetUser', { userId });
+      console.log('user:', data);
+      // const user: UserEntity = data.data;
+      // if (!user || !user.userId) {
+      //   return { message: 'User not found', ok: false };
+      // }
+      return { data: data, ok: true };
     } catch (err) {
       console.error('Error fetching user:', err);
       return { error: 'Internal Server Error', ok: false };

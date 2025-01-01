@@ -87,7 +87,6 @@ export class userRepository {
     ): Promise<UserEntity | Error> {
         try {
             const result = await this.collection.findOne({ userId });
-
             if (result === null) {
                 logger.warn(".getUser", { userId });
 
